@@ -21,7 +21,6 @@ import {
   Wrench,
 } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 
 const buyUrl = process.env.NEXT_PUBLIC_PAYMENT_URL ?? "#order";
 
@@ -68,12 +67,12 @@ export default function HomePage() {
     <>
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/5 bg-deep/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <Link
-            href="/"
-            className="font-display text-lg font-semibold tracking-tight text-white"
+          <a
+            href="#top"
+            className="font-display text-lg font-semibold tracking-tight text-white transition-opacity hover:opacity-90"
           >
             План<span className="text-accent">накоплений</span>
-          </Link>
+          </a>
           <nav className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
             <a href="#kak-rabotaet" className="transition hover:text-white">
               Как работает

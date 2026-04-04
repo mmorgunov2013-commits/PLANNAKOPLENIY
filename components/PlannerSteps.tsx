@@ -57,7 +57,7 @@ export function PlannerSteps({ buyUrl }: PlannerStepsProps) {
           className="pointer-events-none absolute inset-0 z-[1] hidden overflow-visible lg:block"
           aria-hidden
         >
-          {/* Один рублик: 1→2→3→4, пауза, снова цикл */}
+          {/* Рублик: 1→2, стоп 1с; 2→3, стоп 1с; 3→4, стоп 4с; цикл */}
           {/* eslint-disable-next-line @next/next/no-img-element -- декоративная анимация */}
           <img src={rublSrc} alt="" className="steps-coin steps-coin--chain" />
         </div>

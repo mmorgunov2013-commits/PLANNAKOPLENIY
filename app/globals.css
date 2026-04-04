@@ -8,6 +8,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* якоря (#kak-rabotaet и т.д.) не прячутся под фиксированным хедером */
+  scroll-padding-top: 5.5rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -115,7 +117,10 @@ body {
   @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-7 py-3.5 text-sm font-semibold text-slate-800 transition-all duration-300 hover:border-slate-400 hover:bg-slate-50;
 }
 
-/* Один рублик: 1→2→3→4 дугами, низкая линия (58%), 40% opacity; цикл 11.5s = 7.5s полёт + 4s пауза; lg+ */
+/*
+ * Один рублик: перелёт 1→2, исчез; пауза 1с; появился на 2→3, исчез; пауза 1с; 3→4, исчез; пауза 4с.
+ * Цикл 13.5s = 2.5×3 + 1×2 + 4. Низ линии 58%, opacity 40%. Только lg+.
+ */
 .steps-coin {
   position: absolute;
   width: 40px;
@@ -134,96 +139,142 @@ body {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.95);
   }
-  1% {
+
+  /* —— перелёт 1 → 2 (0% … 18.52%) —— */
+  0.8% {
     left: 12.5%;
     top: 58%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  /* 1 → 2 */
-  7% {
+  4.5% {
+    left: 15.5%;
+    top: 54%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  9.3% {
     left: 19.65%;
     top: 52.8%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  13% {
+  13.5% {
     left: 26.8%;
     top: 44.5%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  19% {
+  16.8% {
     left: 33.9%;
     top: 51.5%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  22% {
+  18.52% {
+    left: 37.5%;
+    top: 58%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+
+  /* пауза 1 с у 2-й карточки (18.52% … 25.93%) */
+  18.53%,
+  25.92% {
+    left: 37.5%;
+    top: 58%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+
+  /* —— перелёт 2 → 3 (25.93% … 44.44%) —— */
+  26.4% {
     left: 37.5%;
     top: 58%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  /* 2 → 3 */
-  28% {
+  30% {
+    left: 40.5%;
+    top: 54%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  34.8% {
     left: 44.65%;
     top: 52.8%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  34% {
+  39% {
     left: 51.8%;
     top: 44.5%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  40% {
+  42.3% {
     left: 58.9%;
     top: 51.5%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  43% {
+  44.44% {
+    left: 62.5%;
+    top: 58%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+
+  /* пауза 1 с у 3-й (44.44% … 51.85%) */
+  44.45%,
+  51.84% {
+    left: 62.5%;
+    top: 58%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+
+  /* —— перелёт 3 → 4 (51.85% … 70.37%) —— */
+  52.35% {
     left: 62.5%;
     top: 58%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  /* 3 → 4 */
-  49% {
+  56% {
+    left: 65.5%;
+    top: 54%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  60.8% {
     left: 69.65%;
     top: 52.8%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  55% {
+  65% {
     left: 76.8%;
     top: 44.5%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  61% {
+  68.2% {
     left: 83.9%;
     top: 51.5%;
     opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  64% {
-    left: 87.5%;
-    top: 58%;
-    opacity: 0.4;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  /* исчезновение у 4-й; пауза до конца цикла */
-  65.5% {
+  70.37% {
     left: 87.5%;
     top: 58%;
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.95);
   }
-  65.6%,
-  99.9% {
+
+  /* финальная пауза 4 с (70.37% … 100%), ждём у 1-й невидимый */
+  70.38%,
+  99.99% {
     left: 12.5%;
     top: 58%;
     opacity: 0;
@@ -232,7 +283,7 @@ body {
 }
 
 .steps-coin--chain {
-  animation: steps-fly-chain 11.5s linear infinite;
+  animation: steps-fly-chain 13.5s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
