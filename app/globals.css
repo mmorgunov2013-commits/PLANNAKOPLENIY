@@ -115,48 +115,87 @@ body {
   @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-7 py-3.5 text-sm font-semibold text-slate-800 transition-all duration-300 hover:border-slate-400 hover:bg-slate-50;
 }
 
-/* Рублики: перелёт между соседними шагами (только lg+), ~1s, opacity 55% в полёте */
+/* Рублики: дуга (полукруг), 2.5s на сегмент, opacity 40% в полёте, только lg+ */
 .steps-coin {
   position: absolute;
   width: 40px;
   height: 40px;
   object-fit: contain;
-  filter: drop-shadow(0 3px 8px rgb(15 23 42 / 0.12));
+  filter: drop-shadow(0 3px 8px rgb(15 23 42 / 0.1));
   opacity: 0;
   will-change: left, top, opacity;
 }
 
-/* Центры колонок 1–4 в четырёхколоночной сетке */
+/*
+ * Дуга: x линейно от колонки к колонке, y = 48% − A·sin(πp), p∈[0,1] — гладкая «дуга вверх».
+ * Ключи 3–97% — фаза полёта; по краям — появление / исчезновение.
+ */
 @keyframes steps-fly-1-2 {
   0% {
     left: 12.5%;
     top: 48%;
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.88);
+    transform: translate(-50%, -50%) scale(0.9);
   }
-  5% {
+  3% {
     left: 12.5%;
     top: 48%;
-    opacity: 0.55;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  10% {
+    left: 14.4%;
+    top: 45.2%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  25% {
+    left: 18.35%;
+    top: 39.9%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  40% {
+    left: 22.35%;
+    top: 36.5%;
+    opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
     left: 25%;
     top: 36%;
-    opacity: 0.55;
+    opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  93% {
+  60% {
+    left: 27.65%;
+    top: 36.5%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  75% {
+    left: 31.65%;
+    top: 39.9%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  90% {
+    left: 35.65%;
+    top: 45.2%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  97% {
     left: 37.5%;
     top: 48%;
-    opacity: 0.55;
+    opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
   100% {
     left: 37.5%;
     top: 48%;
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.88);
+    transform: translate(-50%, -50%) scale(0.9);
   }
 }
 
@@ -165,31 +204,67 @@ body {
     left: 37.5%;
     top: 48%;
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.88);
+    transform: translate(-50%, -50%) scale(0.9);
   }
-  5% {
+  3% {
     left: 37.5%;
     top: 48%;
-    opacity: 0.55;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  10% {
+    left: 39.4%;
+    top: 45.2%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  25% {
+    left: 43.35%;
+    top: 39.9%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  40% {
+    left: 47.35%;
+    top: 36.5%;
+    opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
     left: 50%;
     top: 36%;
-    opacity: 0.55;
+    opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  93% {
+  60% {
+    left: 52.65%;
+    top: 36.5%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  75% {
+    left: 56.65%;
+    top: 39.9%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  90% {
+    left: 60.65%;
+    top: 45.2%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  97% {
     left: 62.5%;
     top: 48%;
-    opacity: 0.55;
+    opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
   100% {
     left: 62.5%;
     top: 48%;
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.88);
+    transform: translate(-50%, -50%) scale(0.9);
   }
 }
 
@@ -198,44 +273,80 @@ body {
     left: 62.5%;
     top: 48%;
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.88);
+    transform: translate(-50%, -50%) scale(0.9);
   }
-  5% {
+  3% {
     left: 62.5%;
     top: 48%;
-    opacity: 0.55;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  10% {
+    left: 64.4%;
+    top: 45.2%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  25% {
+    left: 68.35%;
+    top: 39.9%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  40% {
+    left: 72.35%;
+    top: 36.5%;
+    opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
     left: 75%;
     top: 36%;
-    opacity: 0.55;
+    opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
-  93% {
+  60% {
+    left: 77.65%;
+    top: 36.5%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  75% {
+    left: 81.65%;
+    top: 39.9%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  90% {
+    left: 85.65%;
+    top: 45.2%;
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  97% {
     left: 87.5%;
     top: 48%;
-    opacity: 0.55;
+    opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
   100% {
     left: 87.5%;
     top: 48%;
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.88);
+    transform: translate(-50%, -50%) scale(0.9);
   }
 }
 
 .steps-coin--12 {
-  animation: steps-fly-1-2 1s ease-in-out infinite;
+  animation: steps-fly-1-2 2.5s linear infinite;
 }
 
 .steps-coin--23 {
-  animation: steps-fly-2-3 1s ease-in-out infinite;
+  animation: steps-fly-2-3 2.5s linear infinite;
 }
 
 .steps-coin--34 {
-  animation: steps-fly-3-4 1s ease-in-out infinite;
+  animation: steps-fly-3-4 2.5s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
