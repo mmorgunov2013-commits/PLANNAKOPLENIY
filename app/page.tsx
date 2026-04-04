@@ -1,4 +1,5 @@
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { PlannerSteps } from "@/components/PlannerSteps";
 import { Reveal } from "@/components/Reveal";
 import { SpreadsheetMockup } from "@/components/SpreadsheetMockup";
 import {
@@ -7,7 +8,6 @@ import {
   Check,
   FileSpreadsheet,
   Gift,
-  Goal,
   GraduationCap,
   HeartHandshake,
   Laptop,
@@ -245,49 +245,7 @@ export default function HomePage() {
         {/* Блок 4 — Как работает */}
         <section id="kak-rabotaet" className="bg-white py-20 sm:py-28">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <Reveal>
-              <h2 className="font-display text-center text-2xl font-semibold text-slate-900 sm:text-3xl">
-                Как работает планировщик: 3 шага — и у вас уже есть план накоплений
-              </h2>
-            </Reveal>
-            <div className="mt-14 grid gap-8 md:grid-cols-3">
-              {[
-                {
-                  step: "1",
-                  title: "Сумма и старт",
-                  desc: "Введите сумму цели и дату начала.",
-                },
-                {
-                  step: "2",
-                  title: "Срок в неделях",
-                  desc: "Укажите, за сколько недель хотите накопить.",
-                },
-                {
-                  step: "3",
-                  title: "График и контроль",
-                  desc: "Получите график пополнений и отслеживайте прогресс.",
-                },
-              ].map((s, i) => (
-                <Reveal key={s.step} delay={i * 80}>
-                  <div className="relative h-full rounded-2xl border border-slate-100 bg-slate-50/50 p-8 pt-12 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5">
-                    <span className="absolute left-8 top-6 font-display text-5xl font-bold text-slate-200/90">
-                      {s.step}
-                    </span>
-                    <Goal className="mb-4 h-8 w-8 text-accent" aria-hidden />
-                    <h3 className="font-display text-lg font-semibold text-slate-900">{s.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-slate-600">{s.desc}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-            <Reveal className="mt-10 text-center">
-              <p className="text-sm text-slate-500">
-                Никакой сложной настройки, регистрации и обучения. Просто открыли файл и начали.
-              </p>
-              <a href={buyUrl} className="btn-primary mt-6">
-                Получить планировщик
-              </a>
-            </Reveal>
+            <PlannerSteps buyUrl={buyUrl} />
           </div>
         </section>
 
