@@ -57,13 +57,9 @@ export function PlannerSteps({ buyUrl }: PlannerStepsProps) {
           className="pointer-events-none absolute inset-0 z-[1] hidden overflow-visible lg:block"
           aria-hidden
         >
-          {/* Декоративная анимация: обычный img + CSS keyframes */}
+          {/* Один рублик: 1→2→3→4, пауза, снова цикл */}
           {/* eslint-disable-next-line @next/next/no-img-element -- декоративная анимация */}
-          <img src={rublSrc} alt="" className="steps-coin steps-coin--12" />
-          {/* eslint-disable-next-line @next/next/no-img-element -- декоративная анимация */}
-          <img src={rublSrc} alt="" className="steps-coin steps-coin--23" />
-          {/* eslint-disable-next-line @next/next/no-img-element -- декоративная анимация */}
-          <img src={rublSrc} alt="" className="steps-coin steps-coin--34" />
+          <img src={rublSrc} alt="" className="steps-coin steps-coin--chain" />
         </div>
 
         <div className="relative z-0 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
