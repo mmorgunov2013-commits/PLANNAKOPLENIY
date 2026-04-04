@@ -14,10 +14,11 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
-const site = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+const site =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site),
+  metadataBase: new URL(site.endsWith("/") ? site : `${site}/`),
   title: "Планировщик накоплений в Excel — цель, график, прогресс",
   description:
     "Простой Excel для накоплений на любую цель: телефон, отпуск, ремонт. Рассчитывает сколько откладывать в неделю, строит график, показывает прогресс. +3 бонусных файла.",
