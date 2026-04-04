@@ -58,12 +58,12 @@ export function PlannerSteps({ buyUrl }: PlannerStepsProps) {
           aria-hidden
         >
           {/* Декоративная анимация: обычный img + CSS keyframes */}
-          {/* eslint-disable-next-line @next/next/no-img-element -- анимация transform, не LCP */}
-          <img src={rublSrc} alt="" className="steps-coin steps-coin-a" />
-          {/* eslint-disable-next-line @next/next/no-img-element -- анимация transform, не LCP */}
-          <img src={rublSrc} alt="" className="steps-coin steps-coin-b" />
-          {/* eslint-disable-next-line @next/next/no-img-element -- анимация transform, не LCP */}
-          <img src={rublSrc} alt="" className="steps-coin steps-coin-c" />
+          {/* eslint-disable-next-line @next/next/no-img-element -- декоративная анимация */}
+          <img src={rublSrc} alt="" className="steps-coin steps-coin--12" />
+          {/* eslint-disable-next-line @next/next/no-img-element -- декоративная анимация */}
+          <img src={rublSrc} alt="" className="steps-coin steps-coin--23" />
+          {/* eslint-disable-next-line @next/next/no-img-element -- декоративная анимация */}
+          <img src={rublSrc} alt="" className="steps-coin steps-coin--34" />
         </div>
 
         <div className="relative z-0 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
