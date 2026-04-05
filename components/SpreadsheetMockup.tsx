@@ -10,7 +10,7 @@ export function SpreadsheetMockup({ className = "" }: { className?: string }) {
         <span className="h-2.5 w-2.5 rounded-full bg-amber-400/90" />
         <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/90" />
         <span className="ml-2 text-[10px] font-medium tracking-wide text-slate-400">
-          план_накоплений.xlsx
+          План накоплений
         </span>
       </div>
       <div className="grid grid-cols-[auto_1fr_1fr_1fr] gap-px bg-slate-700/50 p-2 text-[10px] sm:text-xs">
@@ -30,12 +30,21 @@ export function SpreadsheetMockup({ className = "" }: { className?: string }) {
         <div className="bg-slate-800/90 p-1.5" />
 
         <div className="bg-slate-800 p-1.5 text-center text-slate-500">3</div>
-        <div className="bg-slate-800/90 p-1.5 text-slate-300">Недель</div>
-        <div className="bg-slate-800/90 p-1.5 font-mono text-white">24</div>
+        <div className="bg-slate-800/90 p-1.5 text-slate-300">Срок</div>
+        <div className="bg-slate-800/90 p-1.5 font-mono text-white">24 нед.</div>
         <div className="bg-slate-800/90 p-1.5" />
 
         <div className="bg-slate-800 p-1.5 text-center text-slate-500">4</div>
+        <div className="bg-slate-800/90 p-1.5 text-slate-300">В неделю</div>
+        <div className="bg-slate-800/90 p-1.5 font-mono text-gold">5 000 ₽</div>
+        <div className="bg-slate-800/90 p-1.5" />
+
+        <div className="bg-slate-800 p-1.5 text-center text-slate-500">5</div>
         <div className="col-span-3 bg-gradient-to-r from-emerald-500/15 to-transparent p-2">
+          <div className="mb-0.5 flex justify-between text-[9px] text-slate-500 sm:text-[10px]">
+            <span>Осталось собрать</span>
+            <span className="font-mono text-slate-300">45 600 ₽</span>
+          </div>
           <div className="mb-1 flex items-center justify-between text-slate-400">
             <span>Прогресс</span>
             <span className="font-mono text-emerald-400">62%</span>

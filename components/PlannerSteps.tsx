@@ -1,7 +1,13 @@
 "use client";
 
 import { Reveal } from "@/components/Reveal";
-import { Calendar, CreditCard, Goal, TrendingUp, type LucideIcon } from "lucide-react";
+import {
+  Activity,
+  Calendar,
+  LineChart,
+  Target,
+  type LucideIcon,
+} from "lucide-react";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -13,27 +19,27 @@ const STEPS: {
 }[] = [
   {
     step: "1",
-    title: "Оплата удобным способом",
-    desc: "Оплатите картой или другим доступным способом — и сразу получите доступ к файлам.",
-    icon: CreditCard,
+    title: "Задаёте цель и сумму",
+    desc: "Формулируете, на что копите и какую сумму хотите собрать — без лишних терминов.",
+    icon: Target,
   },
   {
     step: "2",
-    title: "Сумма и старт",
-    desc: "Введите сумму цели и дату начала.",
-    icon: Goal,
-  },
-  {
-    step: "3",
-    title: "Срок в неделях",
-    desc: "Укажите, за сколько недель хотите накопить.",
+    title: "Указываете срок и старт",
+    desc: "Выбираете, за какой срок хотите дойти до цели, и от какой даты вести отсчёт.",
     icon: Calendar,
   },
   {
+    step: "3",
+    title: "Получаете понятный ритм",
+    desc: "Видите, сколько откладывать регулярно, чтобы уложиться в срок — без ручных расчётов.",
+    icon: Activity,
+  },
+  {
     step: "4",
-    title: "График и контроль",
-    desc: "Получите график пополнений и отслеживайте прогресс.",
-    icon: TrendingUp,
+    title: "Отмечаете пополнения и прогресс",
+    desc: "Фиксируете взносы и смотрите, как растёт запас — мотивация держится дольше.",
+    icon: LineChart,
   },
 ];
 
@@ -48,8 +54,12 @@ export function PlannerSteps({ buyUrl }: PlannerStepsProps) {
     <>
       <Reveal>
         <h2 className="font-display text-center text-2xl font-semibold text-slate-900 sm:text-3xl">
-          Как работает планировщик: 4 шага — и у вас уже есть план накоплений
+          4 шага — и у вас уже есть понятный план
         </h2>
+        <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-slate-600 sm:text-base">
+          Сначала — ясность и простота. Оплата займёт пару минут, когда вы уже захотите забрать
+          планировщик.
+        </p>
       </Reveal>
 
       <div className="relative mt-14">
@@ -57,7 +67,6 @@ export function PlannerSteps({ buyUrl }: PlannerStepsProps) {
           className="pointer-events-none absolute inset-0 z-[1] hidden overflow-visible lg:block"
           aria-hidden
         >
-          {/* Рублик: 1→2, стоп 1с; 2→3, стоп 1с; 3→4, стоп 4с; цикл */}
           {/* eslint-disable-next-line @next/next/no-img-element -- декоративная анимация */}
           <img src={rublSrc} alt="" className="steps-coin steps-coin--chain" />
         </div>
@@ -80,7 +89,7 @@ export function PlannerSteps({ buyUrl }: PlannerStepsProps) {
 
       <Reveal className="mt-10 text-center">
         <p className="text-sm text-slate-500">
-          Никакой сложной настройки, регистрации и обучения. Просто открыли файл и начали.
+          Без сложной настройки: открыли файл с планировщиком и внесли свои цифры в понятные поля.
         </p>
         <a href={buyUrl} className="btn-primary mt-6">
           Получить планировщик
