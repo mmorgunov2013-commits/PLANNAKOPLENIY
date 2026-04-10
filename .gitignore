@@ -34,6 +34,9 @@ LOCAL_PAYMENT_DATA.txt
 # Reg.ru: секреты терминала только на сервере
 /reg-ru-tbank/api/config.local.php
 
+# Локальная копия другого сайта — не коммитить
+/Project_site_for_child/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
