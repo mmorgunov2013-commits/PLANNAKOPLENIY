@@ -26,35 +26,6 @@ function resolveBaseUrl(terminalKey) {
   return "https://securepay.tinkoff.ru/v2";
 }
 
-function parseAllowedOrigins() {
-  const raw = process.env.ALLOW_ORIGINS || process.env.SITE_ORIGIN || "";
-  return raw
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
-/** Браузер для IDN-домена шлёт Origin в punycode; в env часто пишут кириллицу — сравниваем по hostname. */
-function originHostname(origin) {
-  try {
-    return new URL(origin).hostname;
-  } catch {
-    return null;
-  }
-}
-
-function isOriginAllowed(origin, allowedList) {
-  const h = originHostname(origin);
-  if (!h) return false;
-  return allowedList.some((allowed) => {
-    try {
-      return new URL(allowed).hostname === h;
-    } catch {
-      return false;
-    }
-  });
-}
-
 function notificationParamsForToken(obj) {
   const flat = {};
   for (const [key, value] of Object.entries(obj)) {
@@ -74,16 +45,14 @@ function resolveNotificationUrl() {
 }
 
 const app = express();
-const allowedOrigins = parseAllowedOrigins();
 
+// Публичный Init с фронта: отражаем Origin (иначе при .рф punycode ≠ кириллица в env и браузер даёт «Failed to fetch»).
+// Уведомления банка идут сервер-сервер, CORS не участвует.
 app.use(
   cors({
-    origin(origin, cb) {
-      if (!origin) return cb(null, true);
-      if (allowedOrigins.length === 0) return cb(null, true);
-      if (isOriginAllowed(origin, allowedOrigins)) return cb(null, true);
-      return cb(null, false);
-    },
+    origin: true,
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
   }),
 );
 app.use(express.json({ limit: "256kb" }));
@@ -148,7 +117,16 @@ app.post("/payments/tbank/init", async (req, res) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    data = await r.json();
+    const text = await r.text();
+    try {
+      data = JSON.parse(text);
+    } catch {
+      console.error("[tbank Init] non-JSON response", text.slice(0, 400));
+      return res.status(502).json({
+        error:
+          "Т-Банк вернул не JSON (часто блокировка сети, неверный URL API или нужен whitelist IP для теста). Смотри логи Render.",
+      });
+    }
   } catch (e) {
     const msg = e instanceof Error ? e.message : "fetch failed";
     return res.status(502).json({ error: `Запрос к Т-Банку не удался: ${msg}` });
