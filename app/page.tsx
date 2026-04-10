@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 
-const buyUrl = process.env.NEXT_PUBLIC_PAYMENT_URL ?? "#order";
+const buyUrl = "/oplata/";
 const PRICE = "590 ₽";
 
 export const metadata: Metadata = {
