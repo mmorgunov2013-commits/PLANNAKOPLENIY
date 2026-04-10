@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-const paymentApiBase = (process.env.NEXT_PUBLIC_PAYMENT_API_URL ?? "").replace(/\/$/, "");
+// Дефолт: PHP на plan-nakopleniy.ru (если в CI env пустой — иначе fetch идёт на GitHub Pages и даёт 404)
+const paymentApiBase = (
+  (process.env.NEXT_PUBLIC_PAYMENT_API_URL ?? "").trim() || "https://plan-nakopleniy.ru"
+).replace(/\/$/, "");
 const paymentInitPath =
-  (process.env.NEXT_PUBLIC_PAYMENT_INIT_PATH ?? "").trim() || "/payments/tbank/init";
+  (process.env.NEXT_PUBLIC_PAYMENT_INIT_PATH ?? "").trim() || "/api/tbank_init.php";
 const paymentUrlLegacy = process.env.NEXT_PUBLIC_PAYMENT_URL ?? "";
 
 export default function OplataPage() {
@@ -14,9 +17,8 @@ export default function OplataPage() {
   const [email, setEmail] = useState("");
 
   const mode = useMemo(() => {
-    if (paymentApiBase.length > 0) return "api" as const;
     if (paymentUrlLegacy.length > 0 && !paymentUrlLegacy.includes("вашсайт.ru")) return "link" as const;
-    return "none" as const;
+    return "api" as const;
   }, []);
 
   useEffect(() => {
@@ -103,26 +105,7 @@ export default function OplataPage() {
               Перейти сейчас
             </a>
           </>
-        ) : (
-          <>
-            <p className="mt-4 text-slate-300">
-              Оплата еще не активирована: не настроен адрес платёжного API на GitHub Pages.
-            </p>
-            <p className="mt-3 text-sm text-slate-400">
-              В переменных репозитория задайте
-              <code className="mx-1 rounded bg-black/30 px-1.5 py-0.5">NEXT_PUBLIC_PAYMENT_API_URL</code>
-              (например <code className="mx-1 rounded bg-black/30 px-1.5 py-0.5">https://plan-nakopleniy.ru</code>) и
-              <code className="mx-1 rounded bg-black/30 px-1.5 py-0.5">NEXT_PUBLIC_PAYMENT_INIT_PATH</code>
-              <code className="mx-1 rounded bg-black/30 px-1.5 py-0.5">/api/tbank_init.php</code>
-              , затем пересоберите сайт. Либо используйте
-              <code className="mx-1 rounded bg-black/30 px-1.5 py-0.5">NEXT_PUBLIC_PAYMENT_URL</code> для прямой
-              ссылки от банка.
-            </p>
-            <Link href="/" className="btn-secondary mt-6 inline-flex">
-              Вернуться на сайт
-            </Link>
-          </>
-        )}
+        ) : null}
       </section>
     </main>
   );
