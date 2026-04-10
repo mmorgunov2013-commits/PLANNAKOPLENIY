@@ -36,6 +36,7 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://план-накоплений.рф
           NEXT_PUBLIC_PAYMENT_URL: ${{ vars.NEXT_PUBLIC_PAYMENT_URL }}
           NEXT_PUBLIC_PAYMENT_API_URL: ${{ vars.NEXT_PUBLIC_PAYMENT_API_URL }}
+          NEXT_PUBLIC_PAYMENT_INIT_PATH: ${{ vars.NEXT_PUBLIC_PAYMENT_INIT_PATH }}
         run: npm run build
 
       - name: Upload artifact

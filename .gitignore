@@ -31,6 +31,9 @@ yarn-error.log*
 !.env.example
 LOCAL_PAYMENT_DATA.txt
 
+# Reg.ru: секреты терминала только на сервере
+/reg-ru-tbank/api/config.local.php
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
