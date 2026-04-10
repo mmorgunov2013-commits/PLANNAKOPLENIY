@@ -15,12 +15,22 @@
   - SUCCESS_URL / FAIL_URL на https://план-накоплений.рф/...
   - PRODUCT_ZIP_ABSOLUTE — абсолютный путь к файлу на сервере (смотрите в файловом менеджере)
 
-В личном кабинете Т-Банка:
-  NotificationURL = тот же URL, что в config
+Т-Банк — где указать вебхук (NotificationURL)
+---------------------------------------------
+1) Обычно достаточно того, что URL уже уходит в каждом запросе Init из config.local.php
+   (поле NOTIFICATION_URL). Тогда в кабинете ничего дополнительно искать не нужно.
 
-На GitHub (Actions → Variables) для сайта план-накоплений:
-  NEXT_PUBLIC_PAYMENT_API_URL = https://plan-nakopleniy.ru
-  NEXT_PUBLIC_PAYMENT_INIT_PATH = /api/tbank_init.php
+2) Если в интерфейсе просят «URL для уведомлений»:
+   Т-Бизнес → Оплата / Интернет-эквайринг → Магазины → твой магазин → Терминалы →
+   «Настроить» / «Уведомления» → способ HTTP(S) → вставить:
+   https://plan-nakopleniy.ru/api/tbank_notify.php
+   (названия пунктов могут слегка отличаться — ищи «уведомления», «HTTP», «вебхук».)
+
+GitHub Pages
+------------
+В workflow уже заданы значения по умолчанию: API https://plan-nakopleniy.ru и путь /api/tbank_init.php.
+Переменные в Settings → Variables можно не трогать, если не хочешь переопределять.
+Любой push в main пересоберёт сайт с этими URL.
 
 Проверка: открыть в браузере https://plan-nakopleniy.ru/api/tbank_init.php с POST нельзя вручную легко;
   проще с главного сайта /oplata/ после деплоя.
