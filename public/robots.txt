@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mmorgunov2013-commits.github.io/PLANNAKOPLENIY/sitemap.xml
+Sitemap: https://план-накоплений.рф/sitemap.xml
