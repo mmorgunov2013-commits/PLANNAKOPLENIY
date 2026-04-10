@@ -34,6 +34,27 @@ function parseAllowedOrigins() {
     .filter(Boolean);
 }
 
+/** Браузер для IDN-домена шлёт Origin в punycode; в env часто пишут кириллицу — сравниваем по hostname. */
+function originHostname(origin) {
+  try {
+    return new URL(origin).hostname;
+  } catch {
+    return null;
+  }
+}
+
+function isOriginAllowed(origin, allowedList) {
+  const h = originHostname(origin);
+  if (!h) return false;
+  return allowedList.some((allowed) => {
+    try {
+      return new URL(allowed).hostname === h;
+    } catch {
+      return false;
+    }
+  });
+}
+
 function notificationParamsForToken(obj) {
   const flat = {};
   for (const [key, value] of Object.entries(obj)) {
@@ -60,8 +81,8 @@ app.use(
     origin(origin, cb) {
       if (!origin) return cb(null, true);
       if (allowedOrigins.length === 0) return cb(null, true);
-      if (allowedOrigins.includes(origin)) return cb(null, true);
-      return cb(new Error("CORS blocked"));
+      if (isOriginAllowed(origin, allowedOrigins)) return cb(null, true);
+      return cb(null, false);
     },
   }),
 );
