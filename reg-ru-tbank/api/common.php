@@ -146,6 +146,55 @@ function tbank_extract_email_from_notify(array $payload): ?string
     return null;
 }
 
+/**
+ * Т-Банк в HTTP-уведомлении часто не дублирует Email из Init — храним связку OrderId → email после успешного Init.
+ * @param array<string, string> $map
+ */
+function tbank_store_order_email(string $dataDir, string $orderId, string $email): void
+{
+    $orderId = trim($orderId);
+    $email = trim($email);
+    if ($orderId === '' || $email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return;
+    }
+    if (!is_dir($dataDir)) {
+        mkdir($dataDir, 0755, true);
+    }
+    $file = $dataDir . '/order_emails.json';
+    $map = [];
+    if (is_readable($file)) {
+        $j = file_get_contents($file);
+        $map = is_string($j) ? (json_decode($j, true) ?: []) : [];
+    }
+    if (!is_array($map)) {
+        $map = [];
+    }
+    $map[$orderId] = $email;
+    if (count($map) > 5000) {
+        $map = array_slice($map, -3000, null, true);
+    }
+    file_put_contents($file, json_encode($map, JSON_UNESCAPED_UNICODE), LOCK_EX);
+}
+
+function tbank_lookup_email_by_order_id(string $dataDir, string $orderId): ?string
+{
+    $orderId = trim($orderId);
+    if ($orderId === '') {
+        return null;
+    }
+    $file = $dataDir . '/order_emails.json';
+    if (!is_readable($file)) {
+        return null;
+    }
+    $map = json_decode((string) file_get_contents($file), true);
+    if (!is_array($map) || empty($map[$orderId])) {
+        return null;
+    }
+    $e = trim((string) $map[$orderId]);
+
+    return $e !== '' ? $e : null;
+}
+
 function tbank_already_sent_payment(string $dataDir, string $paymentId): bool
 {
     $file = $dataDir . '/sent_payment_ids.txt';

@@ -139,6 +139,9 @@ if (empty($data['PaymentURL'])) {
     exit;
 }
 
+$dataDir = (string) ($cfg['DATA_DIR'] ?? (__DIR__ . '/../data'));
+tbank_store_order_email($dataDir, $orderId, $email);
+
 echo json_encode([
     'paymentUrl' => $data['PaymentURL'],
     'orderId' => $orderId,

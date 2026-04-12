@@ -66,12 +66,23 @@ $traceLine = static function (string $dataDir, string $line): void {
 if ($paidLike && $paymentId !== '') {
     if (!tbank_already_sent_payment($dataDir, $paymentId)) {
         $email = tbank_extract_email_from_notify($payload);
+        $emailSrc = 'notify';
+        if ($email === null || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $orderIdFromBank = isset($payload['OrderId']) ? (string) $payload['OrderId'] : '';
+            $mapped = tbank_lookup_email_by_order_id($dataDir, $orderIdFromBank);
+            if ($mapped !== null && filter_var($mapped, FILTER_VALIDATE_EMAIL)) {
+                $email = $mapped;
+                $emailSrc = 'order_map';
+            } else {
+                $email = null;
+            }
+        }
         if ($email !== null && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $ok = tbank_send_materials_email($cfg, $email);
             error_log('[tbank_notify] mail ' . ($ok ? 'ok' : 'fail') . ' to ' . $email . ' PaymentId=' . $paymentId);
-            $traceLine($dataDir, "PaymentId={$paymentId} status={$status} email=ok mail=" . ($ok ? 'sent' : 'FAIL'));
+            $traceLine($dataDir, "PaymentId={$paymentId} status={$status} email=ok src={$emailSrc} mail=" . ($ok ? 'sent' : 'FAIL'));
         } else {
-            error_log('[tbank_notify] no email in DATA/Data PaymentId=' . $paymentId);
+            error_log('[tbank_notify] no email (notify+order_map) PaymentId=' . $paymentId);
             $traceLine($dataDir, "PaymentId={$paymentId} status={$status} email=MISSING mail=skip");
         }
         // Один раз на PaymentId — иначе банк пришлёт второе уведомление и будет дубль письма
