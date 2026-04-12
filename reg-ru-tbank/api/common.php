@@ -41,12 +41,22 @@ function tbank_notification_params_for_token(array $obj): array
     return $flat;
 }
 
-function tbank_resolve_base_url(string $terminalKey, ?string $override): string
+/**
+ * Базовый URL API эквайринга.
+ * — Терминал с суффиксом DEMO (настройка «тестовый терминал» в кабинете): только https://securepay.tinkoff.ru/v2
+ *   (см. https://developer.tinkoff.ru/eacq/intro/errors/test-cases ).
+ * — Боевой терминал без DEMO + тестовая среда и IP в whitelist: https://rest-api-test.tinkoff.ru/v2
+ *   (см. https://developer.tinkoff.ru/eacq/intro/errors/test ), включается флагом TBANK_USE_REST_API_TEST.
+ */
+function tbank_resolve_base_url(string $terminalKey, ?string $override, bool $useRestApiTestEnv = false): string
 {
     if ($override !== null && $override !== '') {
         return rtrim($override, '/');
     }
     if (stripos($terminalKey, 'DEMO') !== false) {
+        return 'https://securepay.tinkoff.ru/v2';
+    }
+    if ($useRestApiTestEnv) {
         return 'https://rest-api-test.tinkoff.ru/v2';
     }
     return 'https://securepay.tinkoff.ru/v2';

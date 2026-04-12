@@ -10,8 +10,11 @@ return [
     'TBANK_TERMINAL_KEY' => 'ВАШ_TERMINAL_KEY',
     'TBANK_PASSWORD' => 'ВАШ_ПАРОЛЬ_ТЕРМИНАЛА',
 
-    // null = авто: DEMO → тестовый API
+    // null = авто по правилам Т-Банка (DEMO → securepay; боевой → securepay; rest-api-test только с флагом ниже).
     'TBANK_BASE_URL' => null,
+
+    // true = https://rest-api-test.tinkoff.ru/v2 только для боевого терминала без DEMO и при whitelist IP (см. доку «Тестовая среда»).
+    'TBANK_USE_REST_API_TEST' => false,
 
     // Можно кириллический домен — в Init он будет приведён к punycode.
     'SUCCESS_URL' => 'https://план-накоплений.рф/payment/success/',

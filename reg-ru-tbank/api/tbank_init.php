@@ -89,7 +89,11 @@ foreach ($body as $k => $v) {
 }
 $body['Token'] = tbank_sign_token($flatForToken, $password);
 
-$baseUrl = tbank_resolve_base_url($terminalKey, isset($cfg['TBANK_BASE_URL']) ? $cfg['TBANK_BASE_URL'] : null);
+$baseUrl = tbank_resolve_base_url(
+    $terminalKey,
+    isset($cfg['TBANK_BASE_URL']) ? $cfg['TBANK_BASE_URL'] : null,
+    !empty($cfg['TBANK_USE_REST_API_TEST'])
+);
 $url = $baseUrl . '/Init';
 
 $ch = curl_init($url);

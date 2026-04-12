@@ -22,7 +22,11 @@ function timingSafeEqualString(a, b) {
 
 function resolveBaseUrl(terminalKey) {
   if (process.env.TBANK_BASE_URL) return process.env.TBANK_BASE_URL.replace(/\/$/, "");
-  if (/DEMO/i.test(terminalKey || "")) return "https://rest-api-test.tinkoff.ru/v2";
+  // DEMO-терминал из кабинета → securepay (не rest-api-test), см. test-cases в доке Т-Банка.
+  if (/DEMO/i.test(terminalKey || "")) return "https://securepay.tinkoff.ru/v2";
+  if (process.env.TBANK_USE_REST_API_TEST === "1" || process.env.TBANK_USE_REST_API_TEST === "true") {
+    return "https://rest-api-test.tinkoff.ru/v2";
+  }
   return "https://securepay.tinkoff.ru/v2";
 }
 
