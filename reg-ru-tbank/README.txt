@@ -13,7 +13,7 @@
 Лендинг на план-накоплений.рф (GitHub Pages): /oplata/ редиректит на https://plan-nakopleniy.ru/oplata/
 
 В config.local.php обязательно:
-  - TBANK_TERMINAL_KEY, TBANK_PASSWORD
+  - TBANK_TERMINAL_KEY, TBANK_PASSWORD (боевой терминал без DEMO — из кабинета после «Замените тестовые данные»)
   - NOTIFICATION_URL = https://plan-nakopleniy.ru/api/tbank_notify.php
   - SUCCESS_URL / FAIL_URL на https://план-накоплений.рф/...
   - PRODUCT_ZIP_ABSOLUTE — абсолютный путь к файлу на сервере (смотрите в файловом менеджере)
