@@ -37,9 +37,11 @@ jobs:
           NEXT_PUBLIC_PAYMENT_URL: ${{ vars.NEXT_PUBLIC_PAYMENT_URL }}
           NEXT_PUBLIC_PAYMENT_API_URL: ${{ vars.NEXT_PUBLIC_PAYMENT_API_URL }}
           NEXT_PUBLIC_PAYMENT_INIT_PATH: ${{ vars.NEXT_PUBLIC_PAYMENT_INIT_PATH }}
+          NEXT_PUBLIC_PAYMENT_PAGE_URL: ${{ vars.NEXT_PUBLIC_PAYMENT_PAGE_URL }}
         run: |
           export NEXT_PUBLIC_PAYMENT_API_URL="${NEXT_PUBLIC_PAYMENT_API_URL:-https://plan-nakopleniy.ru}"
           export NEXT_PUBLIC_PAYMENT_INIT_PATH="${NEXT_PUBLIC_PAYMENT_INIT_PATH:-/api/tbank_init.php}"
+          export NEXT_PUBLIC_PAYMENT_PAGE_URL="${NEXT_PUBLIC_PAYMENT_PAGE_URL:-https://plan-nakopleniy.ru/oplata/}"
           npm run build
 
       - name: Upload artifact

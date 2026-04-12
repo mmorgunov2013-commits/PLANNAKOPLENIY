@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Оплата — План накоплений</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0; min-height: 100vh; font-family: system-ui, sans-serif;
+      background: #020617; color: #f8fafc;
+      display: flex; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .card {
+      max-width: 28rem; width: 100%; border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.05);
+      padding: 1.5rem 2rem;
+    }
+    h1 { font-size: 1.5rem; font-weight: 600; margin: 0 0 1rem; }
+    p { color: #cbd5e1; line-height: 1.5; margin: 0 0 1rem; font-size: 0.95rem; }
+    label { display: block; font-size: 0.875rem; color: #94a3b8; margin-bottom: 0.5rem; }
+    input {
+      width: 100%; box-sizing: border-box; padding: 0.75rem 1rem; border-radius: 0.75rem;
+      border: 1px solid rgba(255,255,255,.15); background: rgba(0,0,0,.3); color: #fff;
+      font-size: 1rem;
+    }
+    input:disabled { opacity: 0.6; }
+    button {
+      margin-top: 1.25rem; width: 100%; padding: 0.75rem 1rem; border: 0; border-radius: 0.75rem;
+      font-weight: 600; cursor: pointer;
+      background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff;
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .err { color: #fca5a5; font-size: 0.875rem; margin-top: 0.75rem; }
+    a.back { display: inline-block; margin-top: 1rem; color: #94a3b8; font-size: 0.875rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Переход к оплате</h1>
+    <p>Укажите email — на него отправим материалы после успешной оплаты. Дальше откроется страница банка.</p>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" />
+    <button type="button" id="go">Перейти к оплате</button>
+    <p id="err" class="err" hidden></p>
+    <a class="back" href="https://план-накоплений.рф/">← На главную сайта</a>
+  </div>
+  <script>
+    const btn = document.getElementById("go");
+    const emailEl = document.getElementById("email");
+    const errEl = document.getElementById("err");
+    async function pay() {
+      errEl.hidden = true;
+      const email = emailEl.value.trim();
+      if (email.length < 5 || !email.includes("@")) {
+        errEl.textContent = "Укажите корректный email";
+        errEl.hidden = false;
+        return;
+      }
+      btn.disabled = true;
+      emailEl.disabled = true;
+      btn.textContent = "Создаём оплату…";
+      try {
+        const r = await fetch("/api/tbank_init.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        const data = await r.json().catch(function () { return {}; });
+        if (!r.ok) throw new Error(data.error || ("Ошибка " + r.status));
+        if (!data.paymentUrl) throw new Error("Нет ссылки на оплату");
+        window.location.href = data.paymentUrl;
+      } catch (e) {
+        errEl.textContent = e.message || "Ошибка";
+        errEl.hidden = false;
+        btn.disabled = false;
+        emailEl.disabled = false;
+        btn.textContent = "Перейти к оплате";
+      }
+    }
+    btn.addEventListener("click", pay);
+  </script>
+</body>
+</html>
