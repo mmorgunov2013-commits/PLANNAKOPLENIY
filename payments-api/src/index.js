@@ -98,6 +98,7 @@ app.post("/payments/tbank/init", async (req, res) => {
     SuccessURL: successUrl,
     FailURL: failUrl,
     NotificationURL: notificationUrl,
+    OperationInitiatorType: "0",
     PayType: "O",
     Language: "ru",
   };

@@ -13,6 +13,7 @@ return [
     // null = авто: DEMO → тестовый API
     'TBANK_BASE_URL' => null,
 
+    // Можно кириллический домен — в Init он будет приведён к punycode.
     'SUCCESS_URL' => 'https://план-накоплений.рф/payment/success/',
     'FAIL_URL' => 'https://план-накоплений.рф/payment/fail/',
 

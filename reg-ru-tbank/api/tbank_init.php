@@ -26,11 +26,11 @@ try {
     exit;
 }
 
-$terminalKey = (string) ($cfg['TBANK_TERMINAL_KEY'] ?? '');
-$password = (string) ($cfg['TBANK_PASSWORD'] ?? '');
-$successUrl = (string) ($cfg['SUCCESS_URL'] ?? '');
-$failUrl = (string) ($cfg['FAIL_URL'] ?? '');
-$notificationUrl = (string) ($cfg['NOTIFICATION_URL'] ?? '');
+$terminalKey = trim((string) ($cfg['TBANK_TERMINAL_KEY'] ?? ''));
+$password = trim((string) ($cfg['TBANK_PASSWORD'] ?? ''));
+$successUrl = tbank_url_host_to_punycode((string) ($cfg['SUCCESS_URL'] ?? ''));
+$failUrl = tbank_url_host_to_punycode((string) ($cfg['FAIL_URL'] ?? ''));
+$notificationUrl = tbank_url_host_to_punycode((string) ($cfg['NOTIFICATION_URL'] ?? ''));
 $amount = (int) ($cfg['PRODUCT_AMOUNT_KOPECKS'] ?? 0);
 $description = mb_substr((string) ($cfg['PRODUCT_DESCRIPTION'] ?? 'Оплата'), 0, 140);
 
@@ -65,6 +65,7 @@ if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 $orderId = 's' . base_convert((string) time(), 10, 36) . bin2hex(random_bytes(4));
 $orderId = mb_substr($orderId, 0, 36);
 
+// OperationInitiatorType=0 — обычная оплата картой (CIT), иначе НСПК/MAPI часто отвечает 501 «Неверные параметры».
 $body = [
     'TerminalKey' => $terminalKey,
     'Amount' => $amount,
@@ -73,6 +74,7 @@ $body = [
     'SuccessURL' => $successUrl,
     'FailURL' => $failUrl,
     'NotificationURL' => $notificationUrl,
+    'OperationInitiatorType' => '0',
     'PayType' => 'O',
     'Language' => 'ru',
     'DATA' => ['Email' => $email],

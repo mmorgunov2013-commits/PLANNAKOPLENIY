@@ -64,6 +64,50 @@ function tbank_load_config(): array
     return $cfg;
 }
 
+/**
+ * Кириллические домены в SuccessURL/FailURL API может отклонять — приводим хост к punycode (если есть ext-intl).
+ */
+function tbank_url_host_to_punycode(string $url): string
+{
+    $url = trim($url);
+    if ($url === '') {
+        return $url;
+    }
+    $parts = parse_url($url);
+    if ($parts === false || empty($parts['host'])) {
+        return $url;
+    }
+    $host = $parts['host'];
+    if (!preg_match('/[^\x00-\x7F]/', $host)) {
+        return $url;
+    }
+    if (!function_exists('idn_to_ascii')) {
+        return $url;
+    }
+    $variant = defined('INTL_IDNA_VARIANT_UTS46')
+        ? INTL_IDNA_VARIANT_UTS46
+        : (defined('INTL_IDNA_VARIANT_2003') ? INTL_IDNA_VARIANT_2003 : 0);
+    $ascii = @idn_to_ascii($host, IDNA_DEFAULT, $variant);
+    if ($ascii === false || $ascii === '') {
+        return $url;
+    }
+    $parts['host'] = $ascii;
+    $scheme = isset($parts['scheme']) ? $parts['scheme'] . '://' : 'https://';
+    $auth = '';
+    if (isset($parts['user'])) {
+        $auth = $parts['user'];
+        if (isset($parts['pass'])) {
+            $auth .= ':' . $parts['pass'];
+        }
+        $auth .= '@';
+    }
+    $port = isset($parts['port']) ? ':' . (int) $parts['port'] : '';
+    $path = $parts['path'] ?? '';
+    $query = isset($parts['query']) ? '?' . $parts['query'] : '';
+    $fragment = isset($parts['fragment']) ? '#' . $parts['fragment'] : '';
+    return $scheme . $auth . $parts['host'] . $port . $path . $query . $fragment;
+}
+
 function tbank_cors_init(): void
 {
     header('Access-Control-Allow-Origin: *');
