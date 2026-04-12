@@ -47,12 +47,21 @@ if ($got === '' || !hash_equals($expected, $got)) {
     exit;
 }
 
-$success = !empty($payload['Success']) && ($payload['Success'] === true || $payload['Success'] === 'true');
-$status = isset($payload['Status']) ? (string) $payload['Status'] : '';
+$succRaw = $payload['Success'] ?? null;
+$success = $succRaw === true || $succRaw === 'true' || $succRaw === 1 || $succRaw === '1';
+$status = strtoupper((string) ($payload['Status'] ?? ''));
 $paymentId = isset($payload['PaymentId']) ? (string) $payload['PaymentId'] : '';
 
 // Одностадийная оплата: обычно CONFIRMED; иногда приходят два уведомления — шлём письмо один раз по PaymentId
 $paidLike = $success && ($status === 'CONFIRMED' || $status === 'AUTHORIZED');
+
+/** Короткая строка в data/notify_trace.log — без секретов; смотреть на хостинге, не в GitHub. */
+$traceLine = static function (string $dataDir, string $line): void {
+    if (!is_dir($dataDir)) {
+        @mkdir($dataDir, 0755, true);
+    }
+    @file_put_contents($dataDir . '/notify_trace.log', date('c') . ' ' . $line . "\n", FILE_APPEND | LOCK_EX);
+};
 
 if ($paidLike && $paymentId !== '') {
     if (!tbank_already_sent_payment($dataDir, $paymentId)) {
@@ -60,12 +69,18 @@ if ($paidLike && $paymentId !== '') {
         if ($email !== null && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $ok = tbank_send_materials_email($cfg, $email);
             error_log('[tbank_notify] mail ' . ($ok ? 'ok' : 'fail') . ' to ' . $email . ' PaymentId=' . $paymentId);
+            $traceLine($dataDir, "PaymentId={$paymentId} status={$status} email=ok mail=" . ($ok ? 'sent' : 'FAIL'));
         } else {
             error_log('[tbank_notify] no email in DATA/Data PaymentId=' . $paymentId);
+            $traceLine($dataDir, "PaymentId={$paymentId} status={$status} email=MISSING mail=skip");
         }
         // Один раз на PaymentId — иначе банк пришлёт второе уведомление и будет дубль письма
         tbank_mark_payment_sent($dataDir, $paymentId);
+    } else {
+        $traceLine($dataDir, "PaymentId={$paymentId} status={$status} duplicate_notify skip_mail");
     }
+} else {
+    $traceLine($dataDir, "PaymentId={$paymentId} status={$status} success=" . ($success ? '1' : '0') . ' paidLike=0 (no mail branch)');
 }
 
 http_response_code(200);

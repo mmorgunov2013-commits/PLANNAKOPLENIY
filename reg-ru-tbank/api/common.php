@@ -127,16 +127,20 @@ function tbank_cors_init(): void
 
 function tbank_extract_email_from_notify(array $payload): ?string
 {
-    $raw = null;
-    if (!empty($payload['DATA']) && is_string($payload['DATA'])) {
-        $raw = $payload['DATA'];
-    } elseif (!empty($payload['Data']) && is_string($payload['Data'])) {
-        $raw = $payload['Data'];
-    }
-    if ($raw !== null) {
-        $d = json_decode($raw, true);
-        if (is_array($d) && !empty($d['Email']) && is_string($d['Email'])) {
-            return trim($d['Email']);
+    foreach (['DATA', 'Data'] as $key) {
+        if (empty($payload[$key])) {
+            continue;
+        }
+        $block = $payload[$key];
+        if (is_string($block)) {
+            $d = json_decode($block, true);
+            if (is_array($d) && !empty($d['Email']) && is_string($d['Email'])) {
+                return trim($d['Email']);
+            }
+        } elseif (is_array($block)) {
+            if (!empty($block['Email']) && is_string($block['Email'])) {
+                return trim($block['Email']);
+            }
         }
     }
     return null;
