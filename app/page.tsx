@@ -25,6 +25,7 @@ import {
 import type { Metadata } from "next";
 
 const buyUrl = "/oplata/";
+const articlesUrl = "https://plan-nakopleniy.ru/articles/";
 const PRICE = "590 ₽";
 
 export const metadata: Metadata = {
@@ -101,6 +102,9 @@ export default function HomePage() {
             </a>
             <a href="#faq" className="transition hover:text-white">
               Вопросы
+            </a>
+            <a href={articlesUrl} target="_blank" rel="noreferrer" className="transition hover:text-white">
+              Полезные статьи
             </a>
           </nav>
           <a href={buyUrl} className="btn-primary !py-2.5 !px-5 !text-xs sm:!text-sm">
@@ -503,6 +507,23 @@ export default function HomePage() {
             <Reveal className="mt-10 text-center">
               <a href={buyUrl} className="btn-primary">
                 Забрать планировщик
+              </a>
+            </Reveal>
+          </div>
+        </section>
+
+        <section id="articles-soon" className="bg-white py-20 sm:py-28">
+          <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
+            <Reveal>
+              <h2 className="font-display text-2xl font-semibold text-slate-900 sm:text-3xl">
+                Интересные статьи
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-slate-600">
+                Скоро здесь будут полезные статьи по накоплениям, финансовой дисциплине и планированию
+                целей.
+              </p>
+              <a href={articlesUrl} target="_blank" rel="noreferrer" className="btn-secondary-dark mt-8 inline-flex">
+                Перейти в раздел статей
               </a>
             </Reveal>
           </div>

@@ -34,6 +34,8 @@ LOCAL_PAYMENT_DATA.txt
 # Reg.ru: секреты терминала только на сервере
 /reg-ru-tbank/api/config.local.php
 /reg-ru-tbank/data/order_emails.json
+/reg-ru-articles/config/config.local.php
+/reg-ru-articles/public/uploads/
 
 # Локальная копия другого сайта — не коммитить
 /Project_site_for_child/

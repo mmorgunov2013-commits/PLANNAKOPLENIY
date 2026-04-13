@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /articles/
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+RewriteRule ^$ index.php [L]
+RewriteRule ^([a-z0-9-]+)/?$ show.php?slug=$1 [L,QSA]

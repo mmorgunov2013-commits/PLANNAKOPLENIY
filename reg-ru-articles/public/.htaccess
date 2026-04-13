@@ -1,0 +1,4 @@
+RewriteEngine On
+
+# SEO service files for articles module
+RewriteRule ^sitemap\.xml$ /sitemap.php [L]
