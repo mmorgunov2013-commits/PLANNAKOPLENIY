@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/../../src/bootstrap.php';
+require_once __DIR__ . '/../src/bootstrap.php';
 
 if (admin_is_logged_in()) {
     header('Location: /admin/articles.php');

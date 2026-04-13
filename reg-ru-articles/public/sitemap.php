@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/../src/bootstrap.php';
+require_once __DIR__ . '/src/bootstrap.php';
 
 header('Content-Type: application/xml; charset=utf-8');
 $siteUrl = rtrim((string)(app_config()['app']['site_url'] ?? ''), '/');

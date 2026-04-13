@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/../../src/bootstrap.php';
+require_once __DIR__ . '/../src/bootstrap.php';
 require_admin();
 
 $rows = db()->query('SELECT id, title, slug, status, published_at, updated_at FROM articles ORDER BY updated_at DESC, id DESC')->fetchAll();
