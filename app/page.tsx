@@ -576,6 +576,22 @@ export default function HomePage() {
           Информация на странице носит ознакомительный характер и не является финансовой
           консультацией.
         </p>
+        <div className="mx-auto mt-6 max-w-3xl rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-left text-xs text-slate-600">
+          <p className="font-semibold uppercase tracking-wide text-slate-700">Реквизиты</p>
+          <p className="mt-2">
+            <span className="font-medium text-slate-700">ИП:</span> Моргунов Матвей Денисович
+          </p>
+          <p className="mt-1">
+            <span className="font-medium text-slate-700">ОГРНИП:</span> 321623400016318
+          </p>
+          <p className="mt-1">
+            <span className="font-medium text-slate-700">ИНН:</span> 622901830024
+          </p>
+          <p className="mt-1">
+            <span className="font-medium text-slate-700">Юридический адрес:</span> 390044, Россия,
+            Рязанская обл, г Рязань, ул Комбайновая, д 1/5, кв 27
+          </p>
+        </div>
       </footer>
     </>
   );
