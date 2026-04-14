@@ -18,6 +18,27 @@ $st->execute();
 $rows = $st->fetchAll();
 
 $siteUrl = rtrim((string)(app_config()['app']['site_url'] ?? ''), '/');
+/**
+ * Нормализует URL картинки для карточек:
+ * - относительный uploads/articles/x.jpg -> /uploads/articles/x.jpg
+ * - /uploads/... -> абсолютный https://site/uploads/...
+ */
+$normalizeImageUrl = static function (string $src) use ($siteUrl): string {
+    $src = trim($src);
+    if ($src === '') {
+        return '';
+    }
+    if (preg_match('#^https?://#i', $src) === 1 || str_starts_with($src, 'data:image/')) {
+        return $src;
+    }
+    if (str_starts_with($src, '//')) {
+        return 'https:' . $src;
+    }
+    if (!str_starts_with($src, '/')) {
+        $src = '/' . ltrim($src, '/');
+    }
+    return $siteUrl . $src;
+};
 ?>
 <!doctype html>
 <html lang="ru">
@@ -61,6 +82,7 @@ $siteUrl = rtrim((string)(app_config()['app']['site_url'] ?? ''), '/');
                   $img = (string)$m[1];
               }
           }
+          $img = $normalizeImageUrl($img);
         ?>
         <a class="card" href="/articles/<?= e((string)$r['slug']) ?>/">
           <div>
@@ -68,7 +90,7 @@ $siteUrl = rtrim((string)(app_config()['app']['site_url'] ?? ''), '/');
             <p style="margin:0;color:#cbd5e1"><?= e((string)$r['excerpt']) ?></p>
             <div class="meta"><?= e((string)$r['published_at']) ?></div>
           </div>
-          <?php if ($img !== ''): ?><img class="thumb" src="<?= e($img) ?>" alt="<?= e((string)$r['title']) ?>"><?php endif; ?>
+          <?php if ($img !== ''): ?><img class="thumb" src="<?= e($img) ?>" alt="<?= e((string)$r['title']) ?>" loading="lazy" onerror="this.style.display='none'"><?php endif; ?>
         </a>
       <?php endforeach; ?>
     <?php endif; ?>

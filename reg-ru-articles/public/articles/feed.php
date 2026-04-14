@@ -11,6 +11,24 @@ $st = $pdo->prepare("SELECT slug, title, excerpt, cover_image_url, content_html,
 $st->bindValue(':lim', $limit, PDO::PARAM_INT);
 $st->execute();
 $rows = $st->fetchAll();
+$siteUrl = rtrim((string)(app_config()['app']['site_url'] ?? ''), '/');
+
+$normalizeImageUrl = static function (string $src) use ($siteUrl): ?string {
+    $src = trim($src);
+    if ($src === '') {
+        return null;
+    }
+    if (preg_match('#^https?://#i', $src) === 1 || str_starts_with($src, 'data:image/')) {
+        return $src;
+    }
+    if (str_starts_with($src, '//')) {
+        return 'https:' . $src;
+    }
+    if (!str_starts_with($src, '/')) {
+        $src = '/' . ltrim($src, '/');
+    }
+    return $siteUrl . $src;
+};
 
 $items = [];
 foreach ($rows as $r) {
@@ -26,7 +44,7 @@ foreach ($rows as $r) {
         'title' => (string)$r['title'],
         'excerpt' => (string)$r['excerpt'],
         'publishedAt' => (string)$r['published_at'],
-        'imageUrl' => $img !== '' ? $img : null,
+        'imageUrl' => $normalizeImageUrl($img),
     ];
 }
 
