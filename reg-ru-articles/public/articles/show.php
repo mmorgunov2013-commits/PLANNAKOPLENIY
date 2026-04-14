@@ -43,6 +43,10 @@ $desc = (string)($a['meta_description'] ?: $a['excerpt']);
     .content img{max-width:100%;border-radius:12px}
     .meta{font-size:12px;color:#94a3b8;margin-bottom:16px}
     a{color:#38bdf8}
+    .btnRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+    .btnMain{background:#22c55e;color:#052e16}
+    .btnList{background:#1e293b;color:#e2e8f0;border:1px solid #334155}
   </style>
 </head>
 <body>
@@ -52,6 +56,10 @@ $desc = (string)($a['meta_description'] ?: $a['excerpt']);
       <h1><?= e((string)$a['title']) ?></h1>
       <div class="meta"><?= e((string)$a['published_at']) ?></div>
       <div class="content"><?= (string)$a['content_html'] ?></div>
+      <div class="btnRow">
+        <a class="btn btnMain" href="/">На главную</a>
+        <a class="btn btnList" href="/articles/">Все статьи</a>
+      </div>
     </article>
   </div>
   <script type="application/ld+json">
