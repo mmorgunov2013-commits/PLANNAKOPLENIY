@@ -18,6 +18,7 @@ export function ArticlesCarousel() {
   const [items, setItems] = useState<ArticleItem[]>([]);
   const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [brokenMap, setBrokenMap] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     let active = true;
@@ -79,6 +80,10 @@ export function ArticlesCarousel() {
                 alt={a.title}
                 className="mb-3 h-36 w-full rounded-xl object-cover"
                 loading="lazy"
+                onError={() => {
+                  setBrokenMap((prev) => ({ ...prev, [a.slug]: true }));
+                }}
+                style={{ display: brokenMap[a.slug] ? "none" : "block" }}
               />
             ) : null}
             <h3 className="line-clamp-2 text-base font-semibold text-slate-900">{a.title}</h3>
