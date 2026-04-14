@@ -57,7 +57,7 @@ $desc = (string)($a['meta_description'] ?: $a['excerpt']);
       <div class="meta"><?= e((string)$a['published_at']) ?></div>
       <div class="content"><?= (string)$a['content_html'] ?></div>
       <div class="btnRow">
-        <a class="btn btnMain" href="/">На главную</a>
+        <a class="btn btnMain" href="https://план-накоплений.рф/">На главную</a>
         <a class="btn btnList" href="/articles/">Все статьи</a>
       </div>
     </article>

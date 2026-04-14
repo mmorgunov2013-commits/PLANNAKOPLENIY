@@ -68,7 +68,7 @@ $normalizeImageUrl = static function (string $src) use ($siteUrl): string {
   <div class="wrap">
     <div class="h">
       <h1>Полезные статьи</h1>
-      <a class="btn" href="/">На главную</a>
+      <a class="btn" href="https://план-накоплений.рф/">На главную</a>
     </div>
     <?php if (!$rows): ?>
       <p>Скоро здесь появятся полезные материалы по накоплениям.</p>
