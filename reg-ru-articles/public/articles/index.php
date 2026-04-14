@@ -11,7 +11,7 @@ $countSt = $pdo->query("SELECT COUNT(*) AS c FROM articles WHERE status='publish
 $total = (int)($countSt->fetch()['c'] ?? 0);
 $pages = max(1, (int)ceil($total / $perPage));
 
-$st = $pdo->prepare("SELECT slug, title, excerpt, cover_image_url, published_at FROM articles WHERE status='published' ORDER BY published_at DESC, id DESC LIMIT :lim OFFSET :off");
+$st = $pdo->prepare("SELECT slug, title, excerpt, cover_image_url, content_html, published_at FROM articles WHERE status='published' ORDER BY published_at DESC, id DESC LIMIT :lim OFFSET :off");
 $st->bindValue(':lim', $perPage, PDO::PARAM_INT);
 $st->bindValue(':off', $offset, PDO::PARAM_INT);
 $st->execute();
@@ -34,7 +34,9 @@ $siteUrl = rtrim((string)(app_config()['app']['site_url'] ?? ''), '/');
     body{margin:0;font-family:Inter,system-ui,sans-serif;background:#020617;color:#e2e8f0}
     .wrap{max-width:920px;margin:0 auto;padding:32px 16px}
     a{color:#38bdf8;text-decoration:none} a:hover{text-decoration:underline}
-    .card{display:block;background:#0f172a;border:1px solid #1e293b;border-radius:16px;padding:18px;margin-bottom:12px;color:#e2e8f0}
+    .card{display:grid;grid-template-columns:1fr 180px;gap:14px;background:#0f172a;border:1px solid #1e293b;border-radius:16px;padding:18px;margin-bottom:12px;color:#e2e8f0}
+    .thumb{width:180px;height:110px;object-fit:cover;border-radius:10px}
+    @media(max-width:760px){.card{grid-template-columns:1fr}.thumb{width:100%;height:170px}}
     .meta{font-size:12px;color:#94a3b8;margin-top:8px}
     .h{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:24px}
     .btn{background:#22c55e;color:#022c22;padding:10px 14px;border-radius:10px;font-weight:700}
@@ -51,10 +53,22 @@ $siteUrl = rtrim((string)(app_config()['app']['site_url'] ?? ''), '/');
       <p>Скоро здесь появятся полезные материалы по накоплениям.</p>
     <?php else: ?>
       <?php foreach ($rows as $r): ?>
+        <?php
+          $img = trim((string)($r['cover_image_url'] ?? ''));
+          if ($img === '') {
+              $html = (string)($r['content_html'] ?? '');
+              if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $html, $m) === 1) {
+                  $img = (string)$m[1];
+              }
+          }
+        ?>
         <a class="card" href="/articles/<?= e((string)$r['slug']) ?>/">
-          <h2 style="margin:0 0 8px"><?= e((string)$r['title']) ?></h2>
-          <p style="margin:0;color:#cbd5e1"><?= e((string)$r['excerpt']) ?></p>
-          <div class="meta"><?= e((string)$r['published_at']) ?></div>
+          <div>
+            <h2 style="margin:0 0 8px"><?= e((string)$r['title']) ?></h2>
+            <p style="margin:0;color:#cbd5e1"><?= e((string)$r['excerpt']) ?></p>
+            <div class="meta"><?= e((string)$r['published_at']) ?></div>
+          </div>
+          <?php if ($img !== ''): ?><img class="thumb" src="<?= e($img) ?>" alt="<?= e((string)$r['title']) ?>"><?php endif; ?>
         </a>
       <?php endforeach; ?>
     <?php endif; ?>

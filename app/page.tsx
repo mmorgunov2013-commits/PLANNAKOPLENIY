@@ -1,4 +1,5 @@
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { ArticlesCarousel } from "@/components/ArticlesCarousel";
 import { PlannerSteps } from "@/components/PlannerSteps";
 import { Reveal } from "@/components/Reveal";
 import { SpreadsheetMockup } from "@/components/SpreadsheetMockup";
@@ -518,13 +519,8 @@ export default function HomePage() {
               <h2 className="font-display text-2xl font-semibold text-slate-900 sm:text-3xl">
                 Интересные статьи
               </h2>
-              <p className="mx-auto mt-4 max-w-2xl text-slate-600">
-                Скоро здесь будут полезные статьи по накоплениям, финансовой дисциплине и планированию
-                целей.
-              </p>
-              <a href={articlesUrl} target="_blank" rel="noreferrer" className="btn-secondary-dark mt-8 inline-flex">
-                Перейти в раздел статей
-              </a>
+              <p className="mx-auto mt-4 max-w-2xl text-slate-600">Свежие материалы из раздела статей.</p>
+              <ArticlesCarousel />
             </Reveal>
           </div>
         </section>
