@@ -51,6 +51,17 @@ $normalizeImageUrl = static function (string $src) use ($siteUrl): string {
   <meta property="og:title" content="Полезные статьи — План накоплений">
   <meta property="og:description" content="Подборка практичных материалов по накоплениям.">
   <meta property="og:type" content="website">
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=108609817', 'ym');
+    ym(108609817, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <!-- /Yandex.Metrika counter -->
   <style>
     body{margin:0;font-family:Inter,system-ui,sans-serif;background:#020617;color:#e2e8f0}
     .wrap{max-width:920px;margin:0 auto;padding:32px 16px}
@@ -65,6 +76,7 @@ $normalizeImageUrl = static function (string $src) use ($siteUrl): string {
   </style>
 </head>
 <body>
+  <noscript><div><img src="https://mc.yandex.ru/watch/108609817" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <div class="wrap">
     <div class="h">
       <h1>Полезные статьи</h1>
