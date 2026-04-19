@@ -39,7 +39,9 @@
 ## Последнее изменение (Метрика)
 - Вынесено подключение Яндекс.Метрики в отдельный компонент `components/YandexMetrika.tsx` через `next/script`.
 - В `app/layout.tsx` удалён raw inline-скрипт из `<head>`, подключение идёт через `<YandexMetrika />` в `<body>`.
-- Добавлен `ym(..., "hit", ...)` при смене маршрута в App Router.
+- `tag.js` грузится по `src`, `init` + первый `hit` в `onLoad` (иначе первый визит терялся, если эффект срабатывал до появления `window.ym`).
+- При смене маршрута SPA — `ym("hit", ...)` в `useEffect` по `pathname`.
+- Опционально: `NEXT_PUBLIC_YM_ID` в `.env.example`, если номер счётчика в кабинете другой.
 
 ## Что проверить вручную после изменений
 - `https://plan-nakopleniy.ru/oplata/` открывается и принимает email.
