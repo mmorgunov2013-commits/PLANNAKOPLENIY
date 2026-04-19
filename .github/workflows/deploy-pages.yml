@@ -34,6 +34,7 @@ jobs:
         env:
           NEXT_PUBLIC_BASE_PATH: ""
           NEXT_PUBLIC_SITE_URL: https://план-накоплений.рф
+          NEXT_PUBLIC_YM_ID: ${{ vars.NEXT_PUBLIC_YM_ID }}
           NEXT_PUBLIC_PAYMENT_URL: ${{ vars.NEXT_PUBLIC_PAYMENT_URL }}
           NEXT_PUBLIC_PAYMENT_API_URL: ${{ vars.NEXT_PUBLIC_PAYMENT_API_URL }}
           NEXT_PUBLIC_PAYMENT_INIT_PATH: ${{ vars.NEXT_PUBLIC_PAYMENT_INIT_PATH }}
